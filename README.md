@@ -1,2 +1,2 @@
 # Sudoku_FuP
-Jogo Sudoku em Python
+Leia o arquivo Regras.txt.
