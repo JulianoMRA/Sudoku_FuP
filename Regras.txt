@@ -1,0 +1,196 @@
+TRABALHO FINAL SUDOKU
+
+DOIS MODOS:
+    MODO INTERATIVO:
+        Permitir que um usuário possa jogar interativamente.
+
+    MODO BATCH:
+            Validar um jogo que foi dado pelo usuário. O programa deverá ser único, 
+            e assumirá o comportamento INTERATIVO ou BATCH de acordo com a quantidade 
+            de parâmetros que forem apresentados. Então, o modo INTERATIVO ocorrerá 
+            se o programa for rodado apenas com UM parâmetro, e o modo BATCH será ativado 
+            quando forem passados DOIS parâmetros para o programa.
+    
+REQUISITOS - MODO INTERATIVO:
+    1. No modo interativo, o programa deverá ser executado tendo que ler um arquivo de 
+    configuração (em modo texto) que contém a lista das pistas do jogo, podendo conter 
+    de 1 a 80 pistas, onde cada pista deve seguir o seguinte formato:
+
+        <COL>,<LIN>: <NÚMERO>
+
+            <COL>: representa a coluna da grade, em letras maiúsculas de “A” a “I”. 
+            <LIN>: representa a linha da grade, em algarismos de 1 a 9. 
+            <NÚMERO>: representa um número de 1 a 9 dado como pista para a célula.
+
+        O nome do arquivo texto a ser lido deverá ser informado como parâmetro ao programa 
+        principal. Por exemplo, se o usuário digitar no prompt o comando seguinte, o Python 
+        irá executar o programa sudoky.py e o arquivo de configuração que será lido será o 
+        arq_01_cfg.txt.
+
+            % python3 sudoku.py arq_01_cfg.txt
+    
+    2. Após ler o arquivo de configuração das pistas, o programa deverá mostrar a grade do 
+    jogo, já preenchida com as pistas fornecidas no arquivo de configuração. Por exemplo, 
+    considerando o arquivo de configuração exemplificado abaixo:
+
+        A,3: 5
+        F,1: 3
+        D,8: 7
+        H,6: 5
+        F,4: 4
+
+        Para o arquivo de configuração exemplificado acima, o programa deverá mostrar a 
+        grade seguinte:
+
+            A   B   C    D   E   F    G   H   I
+         ++---+---+---++---+---+---++---+---+---++
+        1||   |   |   ||   |   | 3 ||   |   |   ||1
+         ++---+---+---++---+---+---++---+---+---++
+        2||   |   |   ||   |   |   ||   |   |   ||2
+         ++---+---+---++---+---+---++---+---+---++
+        3|| 5 |   |   ||   |   |   ||   |   |   ||3
+         ++---+---+---++---+---+---++---+---+---++
+        4||   |   |   ||   |   | 4 ||   |   |   ||4
+         ++---+---+---++---+---+---++---+---+---++
+        5||   |   |   ||   |   |   ||   |   |   ||5
+         ++---+---+---++---+---+---++---+---+---++
+        6||   |   |   ||   |   |   ||   | 5 |   ||6
+         ++---+---+---++---+---+---++---+---+---++
+        7||   |   |   ||   |   |   ||   |   |   ||7
+         ++---+---+---++---+---+---++---+---+---++
+        8||   |   |   || 7 |   |   ||   |   |   ||8
+         ++---+---+---++---+---+---++---+---+---++
+        9||   |   |   ||   |   |   ||   |   |   ||9
+         ++---+---+---++---+---+---++---+---+---++
+            A   B   C    D   E   F    G   H   I
+    
+    3. A primeira tarefa do programa após mostrar a grade com as pistas é validar se 
+    a grade está ou não de acordo com as regras do jogo. Por exemplo, se um quadrante 
+    da grade tiver algum número repetido ou se houver número repetido em uma coluna ou 
+    linha da grade, o jogo está inválido. O programa deverá verificar também se a quantidade 
+    de pistas fornecidas está de acordo com o intervalo [1;80]. Nos casos de entradas 
+    inválidas, o programa deverá informar isso ao usuário e terminar o programa.
+
+    4. Caso a grade com as pistas seja válida, o usuário deverá entrar suas jogadas, 
+    informando de uma vez só coluna, linha e número para preenchimento da grade. A entrada 
+    deverá ser semelhante ao formato do arquivo de configuração (Exemplo: A,3: 7). 
+    No entanto, o programa deverá ser tolerante a diferenças de formatação. Por exemplo, 
+    o programa deve aceitar entradas como: “a, 4: 8”, “C , 2 : 8”, etc. Além disso, o 
+    programa deve criticar e não aceitar jogadas inválidas como: “K,3: 8”, “A,3: 12”, 
+    “C,10: 8”, e solicitar a entrada de uma nova tentativa de jogada.
+
+    5.  Após cada jogada com formato válido, o programa deverá verificar se a jogada fere 
+    ou não as regras do jogo. Se ferir, o programa deve mostrar mensagem de erro e solicitar 
+    uma nova jogada. Caso a jogada não fira as regras, o programa deverá mostrar a grade 
+    atualizada e pedir uma nova jogada. Uma jogada que preenche uma célula que já foi 
+    preenchida pelo usuário deverá fazer com que o programa informe que a célula já está 
+    ocupada, e deve perguntar se o usuário deseja sobrescrever o valor existente. Uma 
+    jogada em uma célula que contém uma pista deverá ser considerada uma jogada inválida.
+
+    6.  O usuário poderá, em qualquer jogada, pedir as possibilidades de jogadas em uma 
+    determinada célula que esteja desocupada. Para isso, ele deve solicitar no prompt da 
+    seguinte forma:
+
+        ?D, 3
+
+    O comando “?D,3” vai solicitar ao programa quais números podem ser preenchidos na 
+    célula D,3 sem que as restrições do jogo sejam feridas.
+
+    7. O usuário poderá solicitar que uma determinada jogada prévia seja apagada, entrando o 
+    seguinte formato de comando:
+
+        !<COL>,<LIN>
+
+    No caso, o programa deverá remover o número presente na coluna <COL> e linha <LIN>. No 
+    entanto, isso só deve ocorrer se na referida célula houver um número já preenchido pelo 
+    usuário. Uma pista não poderá ser apagada.
+
+    8. O programa deverá receber jogadas em sequência até que a grade esteja completa e, 
+    consequentemente, correta com relação às regras do jogo. Uma mensagem de sucesso deverá 
+    ser apresentada, e o programa terminará.
+
+REQUISITOS - MODO BATCH:
+    1. No modo BATCH, o programa deverá receber não apenas um, mas dois arquivos texto. O 
+    primeiro arquivo, como no modo INTERATIVO, deverá conter a lista de pistas, no mesmo 
+    formato. O segundo arquivo deverá conter uma lista de jogadas, onde cada jogada deverá 
+    cumprir a mesma formatação da lista de pistas, como no exemplo abaixo:
+
+        % python3 sudoku.py arq_01_cfg.txt arq_01_jog.txt
+
+    Nesse caso, o Python vai executar o programa sudoku.py e ler o arquivo arq_01_cfg.txt,
+    que é o arquivo com as pistas, e o arquivo arq_01_jog.txt, que é o arquivo que contém as
+    jogadas a serem realizadas.
+
+    2. O programa inicialmente deverá validar o arquivo de pistas, buscando casos onde uma 
+    ou mais pistas firam as regras do jogo. Caso haja pistas repetidas, o programa deverá 
+    ignorar a repetição. Caso haja definição de pistas distintas para a mesma célula no mesmo 
+    arquivo, a configuração deverá ser considerada como inválida. Caso haja pista(s) ferindo 
+    as regras, o programa deverá exibir mensagem de erro e terminar. A mensagem de erro 
+    deverá ser: “Configuracao de dicas invalida.”
+
+    3. Caso o arquivo de pistas esteja correto, o programa deverá ler todo o arquivo de 
+    jogadas e, em seguida, deverá informar as jogadas que são inválidas e, ao final, se a 
+    lista de jogadas fornecidas preenche ou não a grade, concluindo o jogo. A formatação das 
+    mensagens é estritamente rígida. As mensagens deverão ser exibidas conforme os exemplos 
+    a seguir:
+    
+    A jogada (A,3) = 5 eh invalida!
+    A jogada (F,4) = 2 eh invalida!
+    A jogada (I,8) = 1 eh invalida!
+    A jogada (A,3) = 5 eh invalida!
+    A grade foi preenchida com sucesso!
+
+    ----------------------------------------
+
+    A jogada (C,3) = 2 eh invalida!
+    A jogada (G,1) = 7 eh invalida!
+    A grade nao foi preenchida!
+
+    Não utilizar qualquer tipo de acentuação ou caracteres especiais. Atentar aos espaços.
+
+    4. As jogadas inválidas seguem as mesmas regras do modo INTERATIVO (Requisito 5 do 
+    Modo INTERATIVO).
+
+    5. A correção da saída do programa no modo BATCH será realizada de forma automática. 
+    Portanto, é necessário observar se a formatação exemplificada no item 3 está sendo 
+    devidamente cumprida.
+
+CRITÉRIOS DE AVALIAÇÃO:
+    A avaliação será realizada em três fases:
+        1. Análise do código-fonte;
+        2. Análise da execução do programa (teste interativo e teste automático);
+        3. Análise do vídeo de apresentação.
+    O vídeo de apresentação do programa de cada equipe deverá ser gravado com a participação 
+    de todos os membros da equipe, obviamente com uma divisão equânime das intervenções. O 
+    vídeo não deverá mostrar o programa em execução, mas sim a explicação do código-fonte, 
+    em todas as suas funcionalidades. O tempo do vídeo deverá ser de, no mínimo, 5 (cinco) 
+    minutos e, no máximo, 7 (sete) minutos.
+
+    O código-fonte será avaliado de acordo com os seguintes critérios qualitativos:
+        i. Eficácia do programa em suprir todos os requisitos;
+        ii. Eficiência do programa (otimização);
+        iii. Organização do código (uso racional de subprogramas, estruturas, etc.);
+        iv. Legibilidade do código (uso de endentação e semântica dos identificadores de variáveis);
+        v. Documentação (comentários dentro do código fonte).
+
+    IMPORTANTE: O uso de “goto”, “break” e “continue” provocará a nulidade da nota e o 
+    débito de 1 (um) ponto na segunda avaliação parcial. Obviamente, funcionalidades 
+    adicionais às que foram solicitadas neste documento são bem vindas e serão gratificadas 
+    na nota (na medida do possível). O código-fonte deve conter, em comentário no início do 
+    arquivo fonte principal, os nomes e matrículas dos alunos que compõem o grupo. O 
+    código-fonte deve ser submetido até a data fixada através do Google Classroom.
+
+    APENAS UM MEMBRO DA EQUIPE deverá fazer a entrega via Google Classroom, devendo este 
+    membro indicar a composição completa da equipe nos comentários da entrega.
+
+    Lembramos que todos os programas serão submetidos a análises sintática e léxica 
+    automáticas, que podem evidenciar plágio.
+
+    Os trabalhos serão corrigidos no Linux. Portanto, certifique-se que o trabalho feito no 
+    Windows também roda no Linux.
+    
+    O uso de bibliotecas que não são padrão no Python deverá ser objeto de aprovação prévia 
+    do professor. O uso de bibliotecas que não foram aprovadas previamente pelo professor 
+    acarretará em penalidades na nota.
+
+    PRAZO DE ENTREGA: 20 DE SETEMBRO DE 2024, ATÉ 23:59.
