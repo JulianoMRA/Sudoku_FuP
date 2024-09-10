@@ -45,6 +45,8 @@ def check(tabuleiro, coluna, linha, numero):
       return False
   return True
 
+# Enquanto não conseguimos ler o arquivo de dicas, vamos gerar um sudoku "na marra":
+
 tabuleiro = [[0 for i in range(9)] for i in range(9)]
 tabuleiro[0][0] = 9
 tabuleiro[0][1] = 8
@@ -72,16 +74,15 @@ tabuleiro[8][0] = 2
 tabuleiro[8][4] = 8
 tabuleiro[8][8] = 1
 
-tabuleiroBool = [[True for i in range(9)] for i in range(9)]
-
 # Versão em Bool do tabuleiro que irá verificar a cada jogada se aquela jogada é em cima de um número que foi dado como dica:
 
+tabuleiroBool = [[True for i in range(9)] for i in range(9)]
 for i in range(9):
   for j in range(9):
     if tabuleiro[i][j] != 0:
       tabuleiroBool[i][j] = False
 print_tabuleiro(tabuleiro)
-  
+
 # Interatividade do sistema (Início): 
 
 contador = 0
