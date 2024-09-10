@@ -163,6 +163,8 @@ while flag2:
     coluna = str.lower(coluna)
     coluna = ord(coluna) - ord("a")
 
+    # As condicionais abaixo determinam se uma jogada é válida ou não e enviam mensagens de acordo
+
     if numero > 9 or numero < 0 or linha > 9 or \
     linha < 0 or coluna > 9 or coluna < 0 or entrada == " ":
       print("\nJogada no formato inválido!")
@@ -207,3 +209,6 @@ while flag2:
   contador += 1
 
 # Interatividade do sistema (Fim).
+
+#To do: função que lê um arquivo texto e monta o tabuleiro com as dicas, montando também a versão bool do tabuleiro
+#To do: modo batch, e implementar uma condicional para escolher entre os modos de jogo
