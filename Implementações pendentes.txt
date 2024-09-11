@@ -7,6 +7,9 @@ MODO INTERATIVO:
     de pistas fornecidas está de acordo com o intervalo [1;80]. Nos casos de entradas 
     inválidas, o programa deverá informar isso ao usuário e terminar o programa.
 
+        NÃO VALIDA E NÃO CHECA SE ESTÁ DENTRO DO INTERVALO
+
+
 4. Caso a grade com as pistas seja válida, o usuário deverá entrar suas jogadas, 
     informando de uma vez só coluna, linha e número para preenchimento da grade. A entrada 
     deverá ser semelhante ao formato do arquivo de configuração (Exemplo: A,3: 7). 
@@ -42,6 +45,8 @@ MODO INTERATIVO:
     usuário. Uma pista não poderá ser apagada.
 
         FUNCIONANDO PERFEITAMENTE, VALE APERFEIÇOAR.
+
+O JOGO TERMINA QUANDO PEDE DICA FALTANDO UMA CELULA
 
 MODO BATCH:
     FAZER
