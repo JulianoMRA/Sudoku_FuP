@@ -1,52 +1,45 @@
-MODO INTERATIVO:
-
-3. A primeira tarefa do programa após mostrar a grade com as pistas é validar se 
-    a grade está ou não de acordo com as regras do jogo. Por exemplo, se um quadrante 
-    da grade tiver algum número repetido ou se houver número repetido em uma coluna ou 
-    linha da grade, o jogo está inválido. O programa deverá verificar também se a quantidade 
-    de pistas fornecidas está de acordo com o intervalo [1;80]. Nos casos de entradas 
-    inválidas, o programa deverá informar isso ao usuário e terminar o programa.
-
-        NÃO VALIDA E NÃO CHECA SE ESTÁ DENTRO DO INTERVALO
-
-
-4. Caso a grade com as pistas seja válida, o usuário deverá entrar suas jogadas, 
-    informando de uma vez só coluna, linha e número para preenchimento da grade. A entrada 
-    deverá ser semelhante ao formato do arquivo de configuração (Exemplo: A,3: 7). 
-    No entanto, o programa deverá ser tolerante a diferenças de formatação. Por exemplo, 
-    o programa deve aceitar entradas como: “a, 4: 8”, “C , 2 : 8”, etc. Além disso, o 
-    programa deve criticar e não aceitar jogadas inválidas como: “K,3: 8”, “A,3: 12”, 
-    “C,10: 8”, e solicitar a entrada de uma nova tentativa de jogada.
-
-        Próxima jogada! C,10: 8
-        Traceback (most recent call last):
-        File "C:\Users\565760\Documents\GitHub\Sudoku_FuP\sudoku.py", line 192, in <module>
-            elif not tabuleiroBool[linha][coluna]:
-                    ~~~~~~~~~~~~~^^^^^^^
-        IndexError: list index out of range
-
-5.  Após cada jogada com formato válido, o programa deverá verificar se a jogada fere 
-    ou não as regras do jogo. Se ferir, o programa deve mostrar mensagem de erro e solicitar 
-    uma nova jogada. Caso a jogada não fira as regras, o programa deverá mostrar a grade 
-    atualizada e pedir uma nova jogada. Uma jogada que preenche uma célula que já foi 
-    preenchida pelo usuário deverá fazer com que o programa informe que a célula já está 
-    ocupada, e deve perguntar se o usuário deseja sobrescrever o valor existente. Uma 
-    jogada em uma célula que contém uma pista deverá ser considerada uma jogada inválida.
-
-        FUNCIONA, MAS MELHORAR A RESPOSTA PARA A PERGUNTA SE DESEJA SUBSTITUIR OU NAO.
-
-7. O usuário poderá solicitar que uma determinada jogada prévia seja apagada, entrando o 
-    seguinte formato de comando:
-
-        !<COL>,<LIN>
-
-    No caso, o programa deverá remover o número presente na coluna <COL> e linha <LIN>. No 
-    entanto, isso só deve ocorrer se na referida célula houver um número já preenchido pelo 
-    usuário. Uma pista não poderá ser apagada.
-
-        FUNCIONANDO PERFEITAMENTE, VALE APERFEIÇOAR.
-
-O JOGO TERMINA QUANDO PEDE DICA FALTANDO UMA CELULA
-
 MODO BATCH:
-    FAZER
+    1. No modo BATCH, o programa deverá receber não apenas um, mas dois arquivos texto. O 
+    primeiro arquivo, como no modo INTERATIVO, deverá conter a lista de pistas, no mesmo 
+    formato. O segundo arquivo deverá conter uma lista de jogadas, onde cada jogada deverá 
+    cumprir a mesma formatação da lista de pistas, como no exemplo abaixo:
+
+        % python3 sudoku.py arq_01_cfg.txt arq_01_jog.txt
+
+    Nesse caso, o Python vai executar o programa sudoku.py e ler o arquivo arq_01_cfg.txt,
+    que é o arquivo com as pistas, e o arquivo arq_01_jog.txt, que é o arquivo que contém as
+    jogadas a serem realizadas.
+
+    2. O programa inicialmente deverá validar o arquivo de pistas, buscando casos onde uma 
+    ou mais pistas firam as regras do jogo. Caso haja pistas repetidas, o programa deverá 
+    ignorar a repetição. Caso haja definição de pistas distintas para a mesma célula no mesmo 
+    arquivo, a configuração deverá ser considerada como inválida. Caso haja pista(s) ferindo 
+    as regras, o programa deverá exibir mensagem de erro e terminar. A mensagem de erro 
+    deverá ser: “Configuracao de dicas invalida.”
+
+    3. Caso o arquivo de pistas esteja correto, o programa deverá ler todo o arquivo de 
+    jogadas e, em seguida, deverá informar as jogadas que são inválidas e, ao final, se a 
+    lista de jogadas fornecidas preenche ou não a grade, concluindo o jogo. A formatação das 
+    mensagens é estritamente rígida. As mensagens deverão ser exibidas conforme os exemplos 
+    a seguir:
+    
+    A jogada (A,3) = 5 eh invalida!
+    A jogada (F,4) = 2 eh invalida!
+    A jogada (I,8) = 1 eh invalida!
+    A jogada (A,3) = 5 eh invalida!
+    A grade foi preenchida com sucesso!
+
+    ----------------------------------------
+
+    A jogada (C,3) = 2 eh invalida!
+    A jogada (G,1) = 7 eh invalida!
+    A grade nao foi preenchida!
+
+    Não utilizar qualquer tipo de acentuação ou caracteres especiais. Atentar aos espaços.
+
+    4. As jogadas inválidas seguem as mesmas regras do modo INTERATIVO (Requisito 5 do 
+    Modo INTERATIVO).
+
+    5. A correção da saída do programa no modo BATCH será realizada de forma automática. 
+    Portanto, é necessário observar se a formatação exemplificada no item 3 está sendo 
+    devidamente cumprida.

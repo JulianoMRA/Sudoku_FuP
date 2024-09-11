@@ -27,10 +27,10 @@ def ler_jogadas(arquivo, tabuleiro):
                         coluna = coluna.strip()
                         linha_tabuleiro = linha_tabuleiro.strip()
 
-                        # Convertendo as letras das colunas para números (A -> 0, B -> 1, ...):
+                        # Convertendo as letras das colunas para números:
                         coluna = ord(coluna.lower()) - ord('a')
 
-                        # Convertendo as linhas para índices do tabuleiro (1 -> 0, 2 -> 1, ...):
+                        # Convertendo as linhas para índices do tabuleiro:
                         linha_tabuleiro = int(linha_tabuleiro) - 1
 
                         # Verificando se os índices estão nos limites:
@@ -77,7 +77,7 @@ def print_tabuleiro(tabuleiro):
         print(end="\n")
     print("  ++---+---+---++---+---+---++---+---+---++")
 
-
+# Função que será usada como validação extra para o usuário:
 def certeza(pergunta):
     while True:
         simNao = input(pergunta)
@@ -110,16 +110,16 @@ def check(tabuleiro, coluna, linha, numero):
         return False
     return True
 
-
+# Condição que verifica a quantidade de argumentos fornecidos no comando inicial: 
 if not 2 <= len(sys.argv) <= 3:
-    print("""A quantidade de arquivos não condiz com nenhum modo de jogo
+    print("""A quantidade de arquivos não condiz com nenhum modo de jogo!
             Modo Interativo:
-                Um arquivo.
+                Um arquivo .txt.
             Modo Batch:
-                Dois arquivos.""")
+                Dois arquivos .txt.""")
 
+# Inicializando o tabuleiro e tabuleiroBool
 else:
-    # Inicializando o tabuleiro e tabuleiroBool
     tabuleiro = [[0 for _ in range(9)] for _ in range(9)]
     tabuleiroBool = [[True for _ in range(9)] for _ in range(9)]
 
@@ -127,6 +127,7 @@ else:
     arquivo = sys.argv[1]
 
     flag2 = True
+
     # Ler o arquivo de jogadas e preencher o tabuleiro
     flag3 = ler_jogadas(arquivo, tabuleiro)
     if flag3:
@@ -159,7 +160,7 @@ if len(sys.argv) == 2:
         else:
             entrada = input("Próxima jogada! ")
 
-        #Padronizando entrada:
+        # Padronizando entrada:
         entrada = entrada.replace(":", "")
         entrada = entrada.replace(";", "")
         entrada = entrada.replace(".", "")
