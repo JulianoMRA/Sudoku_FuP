@@ -2,15 +2,17 @@ import sys
 
 # Função para ler o arquivo de jogadas no formato "<coluna>,<linha>: <numero>":
 def ler_jogadas(arquivo, tabuleiro):
+    contador = 0
+    flag3 = False
     try:
         with open(arquivo, "r") as file:
             for linha in file:
-
+                
                 # Vamos remover as quebras de linhas e espaços inúteis:
                 linha = linha.strip()
 
                 # Vamos verificar se a linha está vazia e se contém ":":
-                if linha and ':' in linha:
+                if ':' in linha:
 
                     # Vamos separar a jogada em coluna + linha e número:
                     celula, numero = linha.split(':')
@@ -32,14 +34,18 @@ def ler_jogadas(arquivo, tabuleiro):
                         linha_tabuleiro = int(linha_tabuleiro) - 1
 
                         # Verificando se os índices estão nos limites:
-                        if 0 <= linha_tabuleiro < 9 and 0 <= coluna < 9:
+                        if 0 <= linha_tabuleiro < 9 and 0 <= coluna < 9 and check(tabuleiro, coluna, linha_tabuleiro, int(numero)):
+                            contador += 1
 
                             # Atribuindo o número ao tabuleiro:
                             tabuleiro[linha_tabuleiro][coluna] = int(numero)
                         else:
-                            print(f"Jogada inválida no arquivo: {celula} {numero}")
+                            flag3 = True
                     except ValueError:
-                        print(f"Formato inválido para a linha: {linha}")
+                        flag3 = True
+            if contador > 80:
+                flag3 = True
+            return flag3
     except FileNotFoundError:
         print(f"Arquivo {arquivo} não encontrado.")
     except Exception as erro:
@@ -71,6 +77,24 @@ def print_tabuleiro(tabuleiro):
         print(end="\n")
     print("  ++---+---+---++---+---+---++---+---+---++")
 
+
+def certeza(pergunta):
+    flag = True
+    while flag:
+        simNao = input(pergunta)
+        simNao = str.lower(simNao).strip()
+        if simNao[0] == "s":
+            tabuleiro[linha][coluna] = numero
+            print("\nSubstituindo...\n")
+            print_tabuleiro(tabuleiro)
+            flag = False
+        elif simNao[0] == "n":
+            print("A célula foi mantida!\n")
+            flag = False
+        else:
+            print("Resposta inválida, a célula não foi alterada...")
+
+
 # Função que verifica se um número pode ser colocado em um determinado quadrante:
 def check_quadrante(tabuleiro, j_inicial, i_inicial, numero):
     for i in range(3):
@@ -85,10 +109,10 @@ def check(tabuleiro, coluna, linha, numero):
     j_inicial = coluna // 3 * 3
 
     for i in range(9):
-        if tabuleiro[i][coluna] == numero or \
-           tabuleiro[linha][i] == numero or \
-           check_quadrante(tabuleiro, j_inicial, i_inicial, numero):
+        if tabuleiro[i][coluna] == numero or tabuleiro[linha][i] == numero:
             return False
+    if check_quadrante(tabuleiro, j_inicial, i_inicial, numero):
+        return False
     return True
 
 # Verifica se o nome do arquivo foi passado como argumento:
@@ -103,8 +127,12 @@ tabuleiroBool = [[True for i in range(9)] for i in range(9)]
 # Capturando o nome do arquivo da linha de comando
 arquivo = sys.argv[1]
 
+flag2 = True
 # Ler o arquivo de jogadas e preencher o tabuleiro
-ler_jogadas(arquivo, tabuleiro)
+flag3 = ler_jogadas(arquivo, tabuleiro)
+if flag3:
+    flag2 = False
+    print("Arquivo de dicas inválido!")
 
 # Atualizando o tabuleiroBool para marcar as dicas como imutáveis
 for i in range(9):
@@ -112,14 +140,16 @@ for i in range(9):
         if tabuleiro[i][j] != 0:
             tabuleiroBool[i][j] = False
 
-# Exibir o tabuleiro inicial
-print_tabuleiro(tabuleiro)
+
 
 # Interatividade do sistema (Início):
 contador = 0
-flag2 = True
+
 while flag2:
+
     if contador == 0:
+        # Exibir o tabuleiro inicial
+        print_tabuleiro(tabuleiro)
         entrada = input("Entre com uma jogada: ")
     else:
         entrada = input("Próxima jogada! ")
@@ -185,8 +215,8 @@ while flag2:
         coluna = str.lower(coluna)
         coluna = ord(coluna) - ord("a")
 
-        if numero > 9 or numero < 0 or linha > 9 or \
-           linha < 0 or coluna > 9 or coluna < 0 or entrada == " ":
+        if numero > 9 or numero < 1 or linha > 8 or \
+           linha < 0 or coluna > 8 or coluna < 0 or entrada == " ":
             print("\nJogada no formato inválido!")
         
         elif not tabuleiroBool[linha][coluna]:
@@ -198,33 +228,29 @@ while flag2:
         elif not check(tabuleiro, coluna, linha, numero):
             print("\nA jogada é inválida!\nA jogada fere as regras do jogo.")
         
-        elif check(tabuleiro, coluna, linha, numero) and tabuleiroBool[linha][coluna] and \
-        tabuleiro[linha][coluna] == 0:
+        elif check(tabuleiro, coluna, linha, numero) and tabuleiroBool[linha][coluna] and tabuleiro[linha][coluna] == 0:
             print("\nJogada válida!\n")
             tabuleiro[linha][coluna] = numero
             print_tabuleiro(tabuleiro)
         
-        elif check(tabuleiro, coluna, linha, numero) and tabuleiroBool[linha][coluna] and \
-        tabuleiro[linha][coluna] != 0:
-            simNao = input("\nA jogada é válida, mas a célula escolhida já está preenchida, "
+        elif check(tabuleiro, coluna, linha, numero) and tabuleiroBool[linha][coluna] and tabuleiro[linha][coluna] != 0:
+            print()
+            simNao = certeza("\nA jogada é válida, mas a célula escolhida já está preenchida, "
                            "deseja substituí-la? (s/n)\n")
-            simNao = str.lower(simNao).strip()
-            if simNao[0] == "s":
-                tabuleiro[linha][coluna] = numero
-                print("\nSubstituindo...\n")
-                print_tabuleiro(tabuleiro)
-            else:
-                print("A célula foi mantida!\n")
+            
 
     i = 0
-    j = 0
     flag2 = False
     while i < 9 and not flag2:
+        j = 0
         while j < 9 and not flag2:
-            if tabuleiro[i][j] == 0:
+            if tabuleiro[i][j] == 0:    
                 flag2 = True
             j += 1
         i += 1
     contador += 1
+
+print("JOGO CONCLUIDO")
+print("PARABENS!!")
 
 # Interatividade do sistema (Fim).
