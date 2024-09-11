@@ -79,18 +79,13 @@ def print_tabuleiro(tabuleiro):
 
 
 def certeza(pergunta):
-    flag = True
-    while flag:
+    while True:
         simNao = input(pergunta)
         simNao = str.lower(simNao).strip()
         if simNao[0] == "s":
-            tabuleiro[linha][coluna] = numero
-            print("\nSubstituindo...\n")
-            print_tabuleiro(tabuleiro)
-            flag = False
+            return "s"
         elif simNao[0] == "n":
-            print("A célula foi mantida!\n")
-            flag = False
+            return "n"
         else:
             print("Resposta inválida, a célula não foi alterada...")
 
@@ -166,11 +161,14 @@ while flag2:
         if linha > 9 or linha < 0 or colunaNum > 9 or colunaNum < 0:
             print("Jogada no formato inválido!")
 
-        elif tabuleiroBool[linha][colunaNum] and tabuleiro[linha][colunaNum] != 0: 
-            print("Apagando linha", linha, "coluna", coluna)
-            tabuleiro[linha][colunaNum] = 0
-            print_tabuleiro(tabuleiro)
-            
+        elif tabuleiroBool[linha][colunaNum] and tabuleiro[linha][colunaNum] != 0:
+            simNao = certeza("Você tem certeza que deseja apagar essa célula?")
+            if simNao == "s":
+                print("Apagando linha", linha, "coluna", coluna + ".")
+                tabuleiro[linha][colunaNum] = 0
+                print_tabuleiro(tabuleiro)
+            elif simNao == "n":
+                print("A célula não foi alterada.")
         elif not tabuleiroBool[linha][colunaNum]:
             print("Não é possível apagar uma célula-dica!")
             
@@ -234,9 +232,14 @@ while flag2:
             print_tabuleiro(tabuleiro)
         
         elif check(tabuleiro, coluna, linha, numero) and tabuleiroBool[linha][coluna] and tabuleiro[linha][coluna] != 0:
-            print()
             simNao = certeza("\nA jogada é válida, mas a célula escolhida já está preenchida, "
                            "deseja substituí-la? (s/n)\n")
+            if simNao == "s":
+                tabuleiro[linha][coluna] = numero
+                print("\nSubstituindo...\n")
+                print_tabuleiro(tabuleiro)
+            elif simNao == "n":
+                print("A célula foi mantida!\n")
             
 
     i = 0
