@@ -6,35 +6,35 @@ def ler_jogadas(arquivo, tabuleiro):
         with open(arquivo, "r") as file:
             for linha in file:
 
-                # Remover quebras de linha e espaços extras:
+                # Vamos remover as quebras de linhas e espaços inúteis:
                 linha = linha.strip()
 
-                # Verificar se a linha não está vazia e contém ':':
+                # Vamos verificar se a linha está vazia e se contém ":":
                 if linha and ':' in linha:
 
-                    # Separar a jogada em coluna+linha e número:
+                    # Vamos separar a jogada em coluna + linha e número:
                     celula, numero = linha.split(':')
 
-                    # Remover espaços extras:
+                    # Vamos remover os espaços inúteis:
                     celula = celula.strip()
                     numero = numero.strip()
 
-                    # Separar a coluna e a linha (Ex: "F,1"):
+                    # Separando as colunas e linhas (Ex: "F,1"):
                     try:
                         coluna, linha_tabuleiro = celula.split(',')
                         coluna = coluna.strip()
                         linha_tabuleiro = linha_tabuleiro.strip()
 
-                        # Converter a letra da coluna para número (A -> 0, B -> 1, ...):
+                        # Convertendo as letras das colunas para números (A -> 0, B -> 1, ...):
                         coluna = ord(coluna.lower()) - ord('a')
 
-                        # Converter a linha para índice do tabuleiro (1 -> 0, 2 -> 1, ...):
+                        # Convertendo as linhas para índices do tabuleiro (1 -> 0, 2 -> 1, ...):
                         linha_tabuleiro = int(linha_tabuleiro) - 1
 
-                        # Verificar se os índices estão dentro dos limites:
+                        # Verificando se os índices estão nos limites:
                         if 0 <= linha_tabuleiro < 9 and 0 <= coluna < 9:
 
-                            # Atribuir o número ao tabuleiro:
+                            # Atribuindo o número ao tabuleiro:
                             tabuleiro[linha_tabuleiro][coluna] = int(numero)
                         else:
                             print(f"Jogada inválida no arquivo: {celula} {numero}")
