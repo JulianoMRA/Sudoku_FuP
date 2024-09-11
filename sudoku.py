@@ -162,12 +162,12 @@ while flag2:
             print("Jogada no formato inválido!")
 
         elif tabuleiroBool[linha][colunaNum] and tabuleiro[linha][colunaNum] != 0:
-            simNao = certeza("Você tem certeza que deseja apagar essa célula?")
+            simNao = certeza("\nVocê tem certeza que deseja apagar essa célula? ")
             if simNao == "s":
-                print("Apagando linha", linha, "coluna", coluna + ".")
+                print("\nApagando linha", linha, "coluna", coluna + ".")
                 tabuleiro[linha][colunaNum] = 0
                 print_tabuleiro(tabuleiro)
-            elif simNao == "n":
+            else:
                 print("A célula não foi alterada.")
         elif not tabuleiroBool[linha][colunaNum]:
             print("Não é possível apagar uma célula-dica!")
@@ -238,7 +238,7 @@ while flag2:
                 tabuleiro[linha][coluna] = numero
                 print("\nSubstituindo...\n")
                 print_tabuleiro(tabuleiro)
-            elif simNao == "n":
+            else:
                 print("A célula foi mantida!\n")
             
 
