@@ -1,5 +1,5 @@
 import sys
-
+import time
 # Função para ler o arquivo de jogadas no formato "<coluna>,<linha>: <numero>":
 def ler_jogadas(arquivo, tabuleiro):
     contador = 0
@@ -50,6 +50,25 @@ def ler_jogadas(arquivo, tabuleiro):
         print(f"Arquivo {arquivo} não encontrado.")
     except Exception as erro:
         print(f"Erro ao ler o arquivo: {erro}")
+
+# Função que cria a mensagem:
+def mensagem_inicial():
+    print("\n")
+    time.sleep(0.5)
+    print("+" + "-="*24 + "-+")
+    time.sleep(0.5)
+    print("|" + " "*49 + "|")
+    time.sleep(0.5)
+    print("|" + " "*12 + "ARQUIVO DE DICAS INSERIDO" + " "*12 + "|")
+    time.sleep(0.5)
+    print("|" + " "*18 + "JOGO INICIADO" + " "*18 + "|")
+    time.sleep(0.5)
+    print("|" + " "*19 + "BOM JOGO!!!" + " "*19 + "|")
+    time.sleep(0.5)
+    print("|" + " "*49 + "|")
+    time.sleep(0.5)
+    print("+" + "-="*24 + "-+")
+    print("\n")
 
 # Códigos ANSI de cores:
 vermelho = "\033[31m"
@@ -141,7 +160,9 @@ else:
     if flag3:
         flag2 = False
         print("Arquivo de dicas inválido!")
-
+    # Exibe a mensagem
+    else:
+        mensagem_inicial() 
     # Atualizando o tabuleiroBool para marcar as dicas como imutáveis
     for i in range(9):
         for j in range(9):
