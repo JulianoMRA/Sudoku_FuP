@@ -1,8 +1,10 @@
 import sys
 import time
+import os
+import platform
 
-# Função para ler o arquivo de jogadas no formato "<coluna>,<linha>: <numero>":
-def ler_jogadas(arquivo, tabuleiro):
+# Função para ler o arquivo de dicas no formato "<coluna>,<linha>: <numero>":
+def ler_dicas(arquivo, tabuleiro):
     contador = 0
     flag3 = False
     try:
@@ -55,21 +57,22 @@ def ler_jogadas(arquivo, tabuleiro):
 # Função que cria a mensagem:
 def mensagem_inicial():
     print("\n")
-    time.sleep(0.5)
+    time.sleep(0.3)
     print("+" + "-="*24 + "-+")
-    time.sleep(0.5)
+    time.sleep(0.3)
     print("|" + " "*49 + "|")
-    time.sleep(0.5)
+    time.sleep(0.3)
     print("|" + " "*12 + "ARQUIVO DE DICAS INSERIDO" + " "*12 + "|")
-    time.sleep(0.5)
+    time.sleep(0.3)
     print("|" + " "*18 + "JOGO INICIADO" + " "*18 + "|")
-    time.sleep(0.5)
+    time.sleep(0.3)
     print("|" + " "*19 + "BOM JOGO!!!" + " "*19 + "|")
-    time.sleep(0.5)
+    time.sleep(0.3)
     print("|" + " "*49 + "|")
-    time.sleep(0.5)
+    time.sleep(0.3)
     print("+" + "-="*24 + "-+")
     print("\n")
+    time.sleep(1)
 
 # Códigos ANSI de cores:
 vermelho = "\033[31m"
@@ -138,6 +141,19 @@ def check(tabuleiro, coluna, linha, numero):
         return False
     return True
 
+# Função básica pra limpar o terminal, funciona pra windows e pra linux
+def limpar_terminal():
+    if platform.system() == "Windows":
+        os.system('cls')
+    else:
+        os.system('clear')
+
+
+    
+
+#### INICIO DO CODIGO ####
+
+
 # Condição que verifica a quantidade de argumentos fornecidos no comando inicial: 
 if not 2 <= len(sys.argv) <= 3:
     print("""A quantidade de arquivos não condiz com nenhum modo de jogo!
@@ -145,7 +161,7 @@ if not 2 <= len(sys.argv) <= 3:
                 Um arquivo .txt.
             Modo Batch:
                 Dois arquivos .txt.""")
-
+    
 # Inicializando o tabuleiro e tabuleiroBool
 else:
     tabuleiro = [[0 for _ in range(9)] for _ in range(9)]
@@ -156,8 +172,8 @@ else:
 
     flag2 = True
 
-    # Ler o arquivo de jogadas e preencher o tabuleiro
-    flag3 = ler_jogadas(arquivo, tabuleiro)
+    # Ler o arquivo de dicas e preencher o tabuleiro
+    flag3 = ler_dicas(arquivo, tabuleiro)
     if flag3:
         flag2 = False
         print("Arquivo de dicas inválido!")
@@ -174,7 +190,7 @@ else:
 # Verifica se é o modo interativo:
 if len(sys.argv) == 2:
 
-    # Interatividade do sistema (Início):
+    # Modo Interativo (Início):
     contador = 0
     flag4 = False
 
@@ -198,9 +214,11 @@ if len(sys.argv) == 2:
         entrada = entrada.replace(" ", "")
         entrada = entrada.strip()
 
-        if len(entrada) == 3:
+        # Verificando se a entrada é válida
+        if (len(entrada) == 3 and (entrada[0] == "?" or entrada[0] == "!" or entrada[0].isalpha()) and \
+            entrada[1].isnumeric() and entrada[2].isnumeric() ):
 
-            # Condições que implementam o comando de apagar uma célula:
+            # Condições que implementam o comando de apagar uma célula [!]:
             if entrada[0] == "!":
                 coluna, linha = entrada[1], entrada[2]
                 colunaNum = str.lower(coluna)
@@ -224,7 +242,7 @@ if len(sys.argv) == 2:
                 else:
                     print("A célula escolhida já é vazia...")
 
-            # Condições que implementam o comando de saber quais números podem ser colocados em uma célula:
+            # Condições que implementam o comando de saber quais números podem ser colocados em uma célula [?]:
             elif entrada[0] == "?":
                 coluna, linha = entrada[1], entrada[2]
                 colunaNum = str.lower(coluna)
@@ -270,6 +288,8 @@ if len(sys.argv) == 2:
                 elif check(tabuleiro, coluna, linha, numero) and tabuleiroBool[linha][coluna] and tabuleiro[linha][coluna] == 0:
                     print("\nJogada válida!\n")
                     tabuleiro[linha][coluna] = numero
+                    time.sleep(1)
+                    limpar_terminal()
                     print_tabuleiro(tabuleiro, tabuleiroBool)
                 
                 elif check(tabuleiro, coluna, linha, numero) and tabuleiroBool[linha][coluna] and tabuleiro[linha][coluna] != 0:
@@ -278,6 +298,8 @@ if len(sys.argv) == 2:
                     if simNao == "s":
                         tabuleiro[linha][coluna] = numero
                         print("\nSubstituindo...\n")
+                        time.sleep(1)
+                        limpar_terminal()
                         print_tabuleiro(tabuleiro, tabuleiroBool)
                     else:
                         print("A célula foi mantida!\n")
@@ -299,9 +321,9 @@ if len(sys.argv) == 2:
 
     print("JOGO CONCLUIDO")
     print("PARABENS!!")
+    
+    # Modo Interativo (Fim).
         
 elif len(sys.argv) == 3:
-    # TODO modo batch
-    print("fazer")
-
-# Interatividade do sistema (Fim).
+    print("falta fazer essa desgraça de modo batch")
+    
