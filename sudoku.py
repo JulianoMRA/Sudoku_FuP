@@ -1,5 +1,6 @@
 import sys
 import time
+
 # Função para ler o arquivo de jogadas no formato "<coluna>,<linha>: <numero>":
 def ler_jogadas(arquivo, tabuleiro):
     contador = 0
