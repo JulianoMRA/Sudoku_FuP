@@ -51,9 +51,12 @@ def ler_jogadas(arquivo, tabuleiro):
     except Exception as erro:
         print(f"Erro ao ler o arquivo: {erro}")
 
+# Códigos ANSI de cores:
+vermelho = "\033[31m"
+normal = "\033[0m"
 
 # Função para gerar e imprimir o tabuleiro (onde tem 0, fica vazio):
-def print_tabuleiro(tabuleiro):
+def print_tabuleiro(tabuleiro, tabuleiroBool):
     print("     A   B   C    D   E   F    G   H   I")
     for i in range(9):
         if i == 3 or i == 6:
@@ -64,7 +67,12 @@ def print_tabuleiro(tabuleiro):
 
         for j in range(9):
             if tabuleiro[i][j] != 0:
-                print(tabuleiro[i][j], end=" ")
+                # Jogadas fornecidas pelo arquivo (dicas) em vermelho com fundo branco
+                if not tabuleiroBool[i][j]:
+                    print(f"{vermelho}{tabuleiro[i][j]}{normal}", end=" ")
+                # Jogadas do jogador (futuras) sem formatação
+                else:
+                    print(str(tabuleiro[i][j]), end=" ")
             else:
                 print(" ", end=" ")
 
@@ -152,7 +160,7 @@ if len(sys.argv) == 2:
 
         if contador == 0:
             # Exibir o tabuleiro inicial
-            print_tabuleiro(tabuleiro)
+            print_tabuleiro(tabuleiro, tabuleiroBool)
             entrada = input("Entre com uma jogada: ")
         elif flag4:
             entrada = input("Tente novamente. ")
