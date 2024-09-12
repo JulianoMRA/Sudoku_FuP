@@ -193,7 +193,7 @@ if len(sys.argv) == 2:
                     if simNao == "s":
                         print("\nApagando linha", linha, "coluna", coluna + ".")
                         tabuleiro[linha][colunaNum] = 0
-                        print_tabuleiro(tabuleiro)
+                        print_tabuleiro(tabuleiro, tabuleiroBool)
                     else:
                         print("A célula não foi alterada.")
                 elif not tabuleiroBool[linha][colunaNum]:
@@ -248,7 +248,7 @@ if len(sys.argv) == 2:
                 elif check(tabuleiro, coluna, linha, numero) and tabuleiroBool[linha][coluna] and tabuleiro[linha][coluna] == 0:
                     print("\nJogada válida!\n")
                     tabuleiro[linha][coluna] = numero
-                    print_tabuleiro(tabuleiro)
+                    print_tabuleiro(tabuleiro, tabuleiroBool)
                 
                 elif check(tabuleiro, coluna, linha, numero) and tabuleiroBool[linha][coluna] and tabuleiro[linha][coluna] != 0:
                     simNao = certeza("\nA jogada é válida, mas a célula escolhida já está preenchida, "
@@ -256,7 +256,7 @@ if len(sys.argv) == 2:
                     if simNao == "s":
                         tabuleiro[linha][coluna] = numero
                         print("\nSubstituindo...\n")
-                        print_tabuleiro(tabuleiro)
+                        print_tabuleiro(tabuleiro, tabuleiroBool)
                     else:
                         print("A célula foi mantida!\n")
                 
