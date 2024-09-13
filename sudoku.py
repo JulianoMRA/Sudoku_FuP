@@ -20,8 +20,8 @@ def ler_jogadas(arquivo, lista_jogadas):
         return lista_jogadas
     
            
-# Função para ler o arquivo de dicas no formato "<coluna>,<linha>: <numero>":
-def ler_dicas(arquivo, tabuleiro):
+# Função para ler o arquivo de pistas no formato "<coluna>,<linha>: <numero>":
+def ler_pistas(arquivo, tabuleiro):
     contador = 0
     flag3 = False
     try:
@@ -80,7 +80,7 @@ def mensagem_inicial():
     fun.sleep(0.3)
     print("|" + " "*49 + "|")
     fun.sleep(0.3)
-    print("|" + " "*12 + "ARQUIVO DE DICAS INSERIDO" + " "*12 + "|")
+    print("|" + " "*12 + "ARQUIVO DE PISTAS INSERIDO" + " "*11 + "|")
     fun.sleep(0.3)
     print("|" + " "*18 + "JOGO INICIADO" + " "*18 + "|")
     fun.sleep(0.3)
@@ -130,7 +130,7 @@ def print_tabuleiro(tabuleiro, tabuleiroBool):
 
         for j in range(9):
             if tabuleiro[i][j] != 0:
-                # Jogadas fornecidas pelo arquivo (dicas) em vermelho com fundo branco
+                # Jogadas fornecidas pelo arquivo (pistas) em vermelho com fundo branco
                 if not tabuleiroBool[i][j]:
                     print(f"{vermelho}{tabuleiro[i][j]}{normal}", end=" ")
                 # Jogadas do jogador (futuras) sem formatação
@@ -202,11 +202,11 @@ if not 2 <= len(sys.argv) <= 3:
           
 Para acessar o Modo Interativo insira:
           
-    python sudoku.py <arquivo_de_dicas.txt>
+    python sudoku.py <arquivo_de_pistas.txt>
           
 Para acessar o Modo Batch insira:
           
-    python sudoku.py <arquivo_de_dicas.txt> <arquivo_de_jogadas.txt>
+    python sudoku.py <arquivo_de_pistas.txt> <arquivo_de_jogadas.txt>
           """)
 
 
@@ -220,15 +220,15 @@ else:
 
     flag2 = True
 
-    # Ler o arquivo de dicas e preencher o tabuleiro:
-    flag3 = ler_dicas(arquivo, tabuleiro)
+    # Ler o arquivo de pistas e preencher o tabuleiro:
+    flag3 = ler_pistas(arquivo, tabuleiro)
     if flag3:
         flag2 = False
-        print("Arquivo de dicas inválido!")
+        print("Arquivo de pistas inválido!")
     # Exibe a mensagem:
     else:
         mensagem_inicial() 
-    # Atualizando o tabuleiroBool para marcar as dicas como imutáveis:
+    # Atualizando o tabuleiroBool para marcar as pistas como imutáveis:
     for i in range(9):
         for j in range(9):
             if tabuleiro[i][j] != 0:
@@ -381,7 +381,7 @@ if len(sys.argv) == 2:
 elif len(sys.argv) == 3:
     
 
-    # Ler o arquivo de dicas e validá-lo e montar o tabuleiro com as dicas lidas (Já foi feito anteriormente)
+    # Ler o arquivo de pistas e validá-lo e montar o tabuleiro com as pistas lidas (Já foi feito anteriormente)
     # Ler o arquivo de jogadas e armazenar as jogadas em uma lista:
     arquivo2 = sys.argv[2]
     lista_de_jogadas = []
@@ -452,6 +452,8 @@ elif len(sys.argv) == 3:
 
         mensagem_final()
     else:
+        print_tabuleiro(tabuleiro, tabuleiroBool)
+
         print("A grade nao foi preenchida!")
 
     # Modo Batch (FIM)
