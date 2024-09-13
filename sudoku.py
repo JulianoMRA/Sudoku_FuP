@@ -1,7 +1,5 @@
 import sys
-import time
-import os
-import platform
+import fun
 
 # Função para ler o arquivo de dicas no formato "<coluna>,<linha>: <numero>":
 def ler_dicas(arquivo, tabuleiro):
@@ -57,22 +55,22 @@ def ler_dicas(arquivo, tabuleiro):
 # Função que cria a mensagem:
 def mensagem_inicial():
     print("\n")
-    time.sleep(0.3)
+    fun.sleep(0.3)
     print("+" + "-="*24 + "-+")
-    time.sleep(0.3)
+    fun.sleep(0.3)
     print("|" + " "*49 + "|")
-    time.sleep(0.3)
+    fun.sleep(0.3)
     print("|" + " "*12 + "ARQUIVO DE DICAS INSERIDO" + " "*12 + "|")
-    time.sleep(0.3)
+    fun.sleep(0.3)
     print("|" + " "*18 + "JOGO INICIADO" + " "*18 + "|")
-    time.sleep(0.3)
+    fun.sleep(0.3)
     print("|" + " "*19 + "BOM JOGO!!!" + " "*19 + "|")
-    time.sleep(0.3)
+    fun.sleep(0.3)
     print("|" + " "*49 + "|")
-    time.sleep(0.3)
+    fun.sleep(0.3)
     print("+" + "-="*24 + "-+")
     print("\n")
-    time.sleep(1)
+    fun.sleep(1)
 
 # Códigos ANSI de cores:
 vermelho = "\033[31m"
@@ -143,10 +141,10 @@ def check(tabuleiro, coluna, linha, numero):
 
 # Função básica pra limpar o terminal, funciona pra windows e pra linux
 def limpar_terminal():
-    if platform.system() == "Windows":
-        os.system('cls')
+    if fun.platform.system() == "Windows":
+        fun.os.system('cls')
     else:
-        os.system('clear')
+        fun.os.system('clear')
 
 
     
@@ -215,11 +213,10 @@ if len(sys.argv) == 2:
         entrada = entrada.strip()
 
         # Verificando se a entrada é válida
-        if (len(entrada) == 3 and (entrada[0] == "?" or entrada[0] == "!" or entrada[0].isalpha()) and \
-            entrada[1].isnumeric() and entrada[2].isnumeric() ):
+        if len(entrada) == 3:
 
             # Condições que implementam o comando de apagar uma célula [!]:
-            if entrada[0] == "!":
+            if entrada[0] == "!" and entrada[1].isalpha() and entrada[2].isnumeric():
                 coluna, linha = entrada[1], entrada[2]
                 colunaNum = str.lower(coluna)
                 colunaNum = ord(colunaNum) - ord("a")
@@ -243,7 +240,7 @@ if len(sys.argv) == 2:
                     print("A célula escolhida já é vazia...")
 
             # Condições que implementam o comando de saber quais números podem ser colocados em uma célula [?]:
-            elif entrada[0] == "?":
+            elif entrada[0] == "?" and entrada[1].isalpha() and entrada[2].isnumeric():
                 coluna, linha = entrada[1], entrada[2]
                 colunaNum = str.lower(coluna)
                 colunaNum = ord(colunaNum) - ord("a")
@@ -264,7 +261,7 @@ if len(sys.argv) == 2:
                     print("\n")
             
             # Jogada no formato "<coluna>, <linha> : <numero>":
-            else:
+            elif entrada[0].isalpha() and entrada[1].isnumeric() and entrada[2].isnumeric():
                 coluna, linha, numero = entrada[0], entrada[1], entrada[2]
                 linha = int(linha) - 1
                 numero = int(numero)
@@ -288,7 +285,7 @@ if len(sys.argv) == 2:
                 elif check(tabuleiro, coluna, linha, numero) and tabuleiroBool[linha][coluna] and tabuleiro[linha][coluna] == 0:
                     print("\nJogada válida!\n")
                     tabuleiro[linha][coluna] = numero
-                    time.sleep(1)
+                    fun.sleep(1)
                     limpar_terminal()
                     print_tabuleiro(tabuleiro, tabuleiroBool)
                 
@@ -298,11 +295,15 @@ if len(sys.argv) == 2:
                     if simNao == "s":
                         tabuleiro[linha][coluna] = numero
                         print("\nSubstituindo...\n")
-                        time.sleep(1)
+                        fun.sleep(1)
                         limpar_terminal()
                         print_tabuleiro(tabuleiro, tabuleiroBool)
                     else:
                         print("A célula foi mantida!\n")
+            
+            else:
+                print("\nJogada no formato inválido!")
+                flag4 = True
                 
         else:
             print("\nJogada no formato inválido!")
