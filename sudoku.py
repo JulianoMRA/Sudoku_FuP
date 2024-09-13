@@ -453,7 +453,7 @@ elif len(sys.argv) == 3:
         mensagem_final()
     else:
         print_tabuleiro(tabuleiro, tabuleiroBool)
-
+        print("")
         print("A grade nao foi preenchida!")
 
     # Modo Batch (FIM)
