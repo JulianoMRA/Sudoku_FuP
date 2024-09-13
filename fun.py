@@ -53,7 +53,7 @@ def ler_dicas(arquivo, tabuleiro):
     except Exception as erro:
         print(f"Erro ao ler o arquivo: {erro}")
 
-# Função que cria a mensagem:
+# Função referente a mensagem:
 def mensagem_inicial():
     print("\n")
     sleep(0.3)
@@ -72,6 +72,25 @@ def mensagem_inicial():
     print("+" + "-="*24 + "-+")
     print("\n")
     sleep(1)
+
+# Função referente a mensagem final:
+def mensagem_final():
+    print("\n")
+    sleep(0.2)
+    print("+" + "-="*24 + "-+")
+    sleep(0.2)
+    print("|" + " "*49 + "|")
+    sleep(0.2)
+    print("|" + " "*49 + "|")
+    sleep(0.2)
+    print("|" + " "*6 + "A GRADE FOI PREENCHIDA COM SUCESSO!!!" + " "*6 + "|")
+    sleep(0.2)
+    print("|" + " "*49 + "|")
+    sleep(0.2)
+    print("|" + " "*49 + "|")
+    sleep(0.2)
+    print("+" + "-="*24 + "-+")
+    print("\n")
 
 # Códigos ANSI de cores:
 vermelho = "\033[31m"

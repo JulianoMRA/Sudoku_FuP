@@ -19,9 +19,7 @@ def ler_jogadas(arquivo, lista_jogadas):
 
         return lista_jogadas
     
-    
-    
-        
+           
 # Função para ler o arquivo de dicas no formato "<coluna>,<linha>: <numero>":
 def ler_dicas(arquivo, tabuleiro):
     contador = 0
@@ -73,8 +71,8 @@ def ler_dicas(arquivo, tabuleiro):
     except Exception as erro:
         print(f"Erro ao ler o arquivo: {erro}")
 
-# Função referente a mensagem:
 
+# Função referente a mensagem:
 def mensagem_inicial():
     print("\n")
     fun.sleep(0.3)
@@ -94,11 +92,10 @@ def mensagem_inicial():
     print("\n")
     fun.sleep(1)
 
-# Função referente a mensagem final:
 
+# Função referente a mensagem final:
 def mensagem_final():
     print("\n")
-
     fun.sleep(0.2)
     print("+" + "-="*24 + "-+")
     fun.sleep(0.2)
@@ -113,12 +110,13 @@ def mensagem_final():
     print("|" + " "*49 + "|")
     fun.sleep(0.2)
     print("+" + "-="*24 + "-+")
-
     print("\n")
+
 
 # Códigos ANSI de cores:
 vermelho = "\033[31m"
 normal = "\033[0m"
+
 
 # Função para gerar e imprimir o tabuleiro (onde tem 0, fica vazio):
 def print_tabuleiro(tabuleiro, tabuleiroBool):
@@ -150,6 +148,7 @@ def print_tabuleiro(tabuleiro, tabuleiroBool):
         print(end="\n")
     print("  ++---+---+---++---+---+---++---+---+---++")
 
+
 # Função que será usada como validação extra para o usuário:
 def certeza(pergunta):
     while True:
@@ -171,6 +170,7 @@ def check_quadrante(tabuleiro, j_inicial, i_inicial, numero):
                 return True
     return False
 
+
 # Função que verifica se um número pode ser colocado em uma célula[linha][coluna]:
 def check(tabuleiro, coluna, linha, numero):
     i_inicial = linha // 3 * 3
@@ -183,6 +183,7 @@ def check(tabuleiro, coluna, linha, numero):
         return False
     return True
 
+
 # Função básica pra limpar o terminal, funciona pra windows e pra linux
 def limpar_terminal():
     if fun.platform.system() == "Windows":
@@ -191,38 +192,43 @@ def limpar_terminal():
         fun.os.system('clear')
 
 
-    
-
+   
 #### INICIO DO CODIGO ####
 
 
 # Condição que verifica a quantidade de argumentos fornecidos no comando inicial: 
 if not 2 <= len(sys.argv) <= 3:
     print("""A quantidade de arquivos não condiz com nenhum modo de jogo!
-            Modo Interativo:
-                Um arquivo .txt.
-            Modo Batch:
-                Dois arquivos .txt.""")
-    
-# Inicializando o tabuleiro e tabuleiroBool
+          
+Para acessar o Modo Interativo insira:
+          
+    python sudoku.py <arquivo_de_dicas.txt>
+          
+Para acessar o Modo Batch insira:
+          
+    python sudoku.py <arquivo_de_dicas.txt> <arquivo_de_jogadas.txt>
+          """)
+
+
+# Inicializando o tabuleiro e tabuleiroBool:
 else:
     tabuleiro = [[0 for _ in range(9)] for _ in range(9)]
     tabuleiroBool = [[True for _ in range(9)] for _ in range(9)]
 
-    # Capturando o nome do arquivo da linha de comando
+    # Capturando o nome do arquivo da linha de comando:
     arquivo = sys.argv[1]
 
     flag2 = True
 
-    # Ler o arquivo de dicas e preencher o tabuleiro
+    # Ler o arquivo de dicas e preencher o tabuleiro:
     flag3 = ler_dicas(arquivo, tabuleiro)
     if flag3:
         flag2 = False
         print("Arquivo de dicas inválido!")
-    # Exibe a mensagem
+    # Exibe a mensagem:
     else:
         mensagem_inicial() 
-    # Atualizando o tabuleiroBool para marcar as dicas como imutáveis
+    # Atualizando o tabuleiroBool para marcar as dicas como imutáveis:
     for i in range(9):
         for j in range(9):
             if tabuleiro[i][j] != 0:
@@ -232,14 +238,15 @@ else:
 # Verifica se é o modo interativo:
 if len(sys.argv) == 2:
 
-    # Modo Interativo (Início):
+
+    # Modo Interativo (INÍCIO):
     contador = 0
     flag4 = False
 
     while flag2:
 
         if contador == 0:
-            # Exibir o tabuleiro inicial
+            # Exibir o tabuleiro inicial:
             print_tabuleiro(tabuleiro, tabuleiroBool)
             entrada = input("Entre com uma jogada: ")
         elif flag4:
@@ -256,7 +263,7 @@ if len(sys.argv) == 2:
         entrada = entrada.replace(" ", "")
         entrada = entrada.strip()
 
-        # Verificando se a entrada é válida
+        # Verificando se a entrada é válida:
         if len(entrada) == 3:
 
             # Condições que implementam o comando de apagar uma célula [!]:
@@ -367,23 +374,21 @@ if len(sys.argv) == 2:
     print("JOGO CONCLUIDO")
     print("PARABENS!!")
     
-    # Modo Interativo (Fim).
+    # Modo Interativo (FIM).
 
 
-    # Modo Batch (Inicio):
-     
+    # Modo Batch (INÍCIO):
 elif len(sys.argv) == 3:
     
 
-    # Ler o arquivo de dicas e validá-lo e montar o tabuleiro com as dicas lidas (Já feito fora dessa condicional na linha 184)
-
-    # Ler o arquivo de jogadas e armazenar as jogadas em uma lista
+    # Ler o arquivo de dicas e validá-lo e montar o tabuleiro com as dicas lidas (Já foi feito anteriormente)
+    # Ler o arquivo de jogadas e armazenar as jogadas em uma lista:
     arquivo2 = sys.argv[2]
     lista_de_jogadas = []
     lista_de_jogadas = ler_jogadas(arquivo2, lista_de_jogadas)
 
 
-    # Percorrer a lista de jogadas validando cada jogada uma a uma, e salvando as inválidas em uma lista separada
+    # Percorrer a lista de jogadas validando cada jogada uma a uma, e salvando as inválidas em uma lista separada:
     lista_de_jogadas_erradas = []
 
     for jogada in lista_de_jogadas:
@@ -418,7 +423,8 @@ elif len(sys.argv) == 3:
             else:
                 lista_de_jogadas_erradas.append(entrada)
 
-    # Checando se a grade foi preenchida ou não
+
+    # Checando se a grade foi preenchida ou não:
     nao_terminou = False
     i = 0
     while i < 9 and not nao_terminou:
@@ -429,7 +435,8 @@ elif len(sys.argv) == 3:
             j += 1
         i += 1
 
-    # Printando as jogadas erradas
+
+    # Printando as jogadas erradas:
     for jogada in lista_de_jogadas_erradas:
 
         entrada = jogada
@@ -438,14 +445,15 @@ elif len(sys.argv) == 3:
 
         print(f"A jogada ({coluna}, {linha}) = {numero} eh invalida!")
 
-    # Printando se a grade foi preenchida ou não
-    if True:
+
+    # Printando se a grade foi preenchida ou não:
+    if nao_terminou:
         print_tabuleiro(tabuleiro, tabuleiroBool)
 
         mensagem_final()
     else:
         print("A grade nao foi preenchida!")
 
-    # Modo Batch (Fim)
+    # Modo Batch (FIM)
 
 #### FIM DO CODIGO ####
