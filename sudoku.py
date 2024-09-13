@@ -1,6 +1,27 @@
 import sys
 import fun
 
+# Função para ler o arquivo de jogadas do modo batch e armazenar as jogadas(já padronizadas) em uma lista
+def ler_jogadas(arquivo, lista_jogadas):
+
+    with open(arquivo, "r") as file:
+        for line in file:
+            entrada = line
+            # Padronizando entrada:
+            entrada = entrada.replace(":", "")
+            entrada = entrada.replace(";", "")
+            entrada = entrada.replace(".", "")
+            entrada = entrada.replace(",", "")
+            entrada = entrada.replace(" ", "")
+            entrada = entrada.strip()
+
+            lista_jogadas.append(entrada)
+
+        return lista_jogadas
+    
+    
+    
+        
 # Função para ler o arquivo de dicas no formato "<coluna>,<linha>: <numero>":
 def ler_dicas(arquivo, tabuleiro):
     contador = 0
@@ -326,5 +347,79 @@ if len(sys.argv) == 2:
     # Modo Interativo (Fim).
         
 elif len(sys.argv) == 3:
-    print("falta fazer essa desgraça de modo batch")
-    
+    # Modo Batch (Inicio)
+
+    # Ler o arquivo de dicas e validá-lo e montar o tabuleiro com as dicas lidas (Já feito fora dessa condicional na linha 184)
+
+    # Ler o arquivo de jogadas e armazenar as jogadas em uma lista
+    arquivo2 = sys.argv[2]
+    lista_de_jogadas = []
+    lista_de_jogadas = ler_jogadas(arquivo2, lista_de_jogadas)
+
+
+    # Percorrer a lista de jogadas validando cada jogada uma a uma, e salvando as inválidas em uma lista separada
+    lista_de_jogadas_erradas = []
+
+    for jogada in lista_de_jogadas:
+
+        entrada = jogada
+
+        if entrada[0].isalpha() and entrada[1].isnumeric() and entrada[2].isnumeric():
+            coluna, linha, numero = entrada[0], entrada[1], entrada[2]
+            linha = int(linha) - 1
+            numero = int(numero)
+
+            coluna = str.lower(coluna)
+            coluna = ord(coluna) - ord("a")
+
+            if numero > 9 or numero < 1 or linha > 8 or \
+            linha < 0 or coluna > 8 or coluna < 0 or entrada == " ":
+                lista_de_jogadas_erradas.append(entrada)
+            
+            elif not tabuleiroBool[linha][coluna]:
+                lista_de_jogadas_erradas.append(entrada)
+            
+            elif not check(tabuleiro, coluna, linha, numero):
+                lista_de_jogadas_erradas.append(entrada)
+            
+            elif check(tabuleiro, coluna, linha, numero) and tabuleiroBool[linha][coluna] and tabuleiro[linha][coluna] == 0:
+                tabuleiro[linha][coluna] = numero
+                
+            
+            elif check(tabuleiro, coluna, linha, numero) and tabuleiroBool[linha][coluna] and tabuleiro[linha][coluna] != 0:
+                tabuleiro[linha][coluna] = numero
+            
+            else:
+                lista_de_jogadas_erradas.append(entrada)
+
+    # Checando se a grade foi preenchida ou não
+    nao_terminou = False
+    i = 0
+    while i < 9 and not nao_terminou:
+        j = 0
+        while j < 9 and not nao_terminou:
+            if tabuleiro[i][j] == 0:
+                nao_terminou = True
+            j += 1
+        i += 1
+        
+
+
+    # Printando as jogadas erradas
+    for jogada in lista_de_jogadas_erradas:
+
+        entrada = jogada
+
+        coluna, linha, numero = entrada[0], entrada[1], entrada[2]
+
+        print(f"A jogada ({coluna}, {linha}) = {numero} eh invalida!")
+
+    # Printando se a grade foi preenchida ou não
+    if True:
+        print("A grade foi preenchida com sucesso!")
+    else:
+        print("A grade nao foi preenchida!")
+
+    #Modo Batch (Fim)
+
+#### FIM DO CODIGO ####
