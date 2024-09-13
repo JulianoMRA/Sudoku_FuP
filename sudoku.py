@@ -73,7 +73,8 @@ def ler_dicas(arquivo, tabuleiro):
     except Exception as erro:
         print(f"Erro ao ler o arquivo: {erro}")
 
-# Função que cria a mensagem:
+# Função referente a mensagem:
+
 def mensagem_inicial():
     print("\n")
     fun.sleep(0.3)
@@ -92,6 +93,28 @@ def mensagem_inicial():
     print("+" + "-="*24 + "-+")
     print("\n")
     fun.sleep(1)
+
+# Função referente a mensagem final:
+
+def mensagem_final():
+    print("\n")
+
+    fun.sleep(0.2)
+    print("+" + "-="*24 + "-+")
+    fun.sleep(0.2)
+    print("|" + " "*49 + "|")
+    fun.sleep(0.2)
+    print("|" + " "*49 + "|")
+    fun.sleep(0.2)
+    print("|" + " "*6 + "A GRADE FOI PREENCHIDA COM SUCESSO!!!" + " "*6 + "|")
+    fun.sleep(0.2)
+    print("|" + " "*49 + "|")
+    fun.sleep(0.2)
+    print("|" + " "*49 + "|")
+    fun.sleep(0.2)
+    print("+" + "-="*24 + "-+")
+
+    print("\n")
 
 # Códigos ANSI de cores:
 vermelho = "\033[31m"
@@ -345,9 +368,12 @@ if len(sys.argv) == 2:
     print("PARABENS!!")
     
     # Modo Interativo (Fim).
-        
+
+
+    # Modo Batch (Inicio):
+     
 elif len(sys.argv) == 3:
-    # Modo Batch (Inicio)
+    
 
     # Ler o arquivo de dicas e validá-lo e montar o tabuleiro com as dicas lidas (Já feito fora dessa condicional na linha 184)
 
@@ -402,8 +428,6 @@ elif len(sys.argv) == 3:
                 nao_terminou = True
             j += 1
         i += 1
-        
-
 
     # Printando as jogadas erradas
     for jogada in lista_de_jogadas_erradas:
@@ -416,10 +440,12 @@ elif len(sys.argv) == 3:
 
     # Printando se a grade foi preenchida ou não
     if True:
-        print("A grade foi preenchida com sucesso!")
+        print_tabuleiro(tabuleiro, tabuleiroBool)
+
+        mensagem_final()
     else:
         print("A grade nao foi preenchida!")
 
-    #Modo Batch (Fim)
+    # Modo Batch (Fim)
 
 #### FIM DO CODIGO ####
