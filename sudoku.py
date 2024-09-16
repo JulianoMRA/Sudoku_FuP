@@ -6,8 +6,6 @@
 import sys
 import fun
 
-#### INICIO DO CODIGO ####
-
 # Condição que verifica a quantidade de argumentos fornecidos no comando inicial: 
 if not 2 <= len(sys.argv) <= 3:
     print("""A quantidade de arquivos não condiz com nenhum modo de jogo!
@@ -269,4 +267,3 @@ elif len(sys.argv) == 3:
         fun.mensagem_final()
 
     # Modo Batch (FIM)
-#### FIM DO CODIGO ####
