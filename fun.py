@@ -2,8 +2,26 @@ from time import sleep
 import os
 import platform
 
-# Função para ler o arquivo de dicas no formato "<coluna>,<linha>: <numero>":
-def ler_dicas(arquivo, tabuleiro):
+# Função para ler o arquivo de jogadas do modo batch e armazenar as jogadas(já padronizadas) em uma lista:
+def ler_jogadas(arquivo, lista_jogadas):
+
+    with open(arquivo, "r") as file:
+        for line in file:
+            entrada = line
+            # Padronizando entrada:
+            entrada = entrada.replace(":", "")
+            entrada = entrada.replace(";", "")
+            entrada = entrada.replace(".", "")
+            entrada = entrada.replace(",", "")
+            entrada = entrada.replace(" ", "")
+            entrada = entrada.strip()
+
+            lista_jogadas.append(entrada)
+
+        return lista_jogadas
+
+# Função para ler o arquivo de pistas:
+def ler_pistas(arquivo, tabuleiro):
     contador = 0
     flag3 = False
     try:
@@ -13,8 +31,8 @@ def ler_dicas(arquivo, tabuleiro):
                 # Vamos remover as quebras de linhas e espaços inúteis:
                 linha = linha.strip()
 
-                # Vamos verificar se a linha está vazia e se contém ":":
-                if ':' in linha:
+                # Vamos verificar se contém ":":
+                if linha:
 
                     # Vamos separar a jogada em coluna + linha e número:
                     celula, numero = linha.split(':')
@@ -53,7 +71,7 @@ def ler_dicas(arquivo, tabuleiro):
     except Exception as erro:
         print(f"Erro ao ler o arquivo: {erro}")
 
-# Função referente a mensagem:
+# Função referente a mensagem inicial:
 def mensagem_inicial():
     print("\n")
     sleep(0.3)
@@ -61,7 +79,7 @@ def mensagem_inicial():
     sleep(0.3)
     print("|" + " "*49 + "|")
     sleep(0.3)
-    print("|" + " "*12 + "ARQUIVO DE DICAS INSERIDO" + " "*12 + "|")
+    print("|" + " "*12 + "ARQUIVO DE PISTAS INSERIDO" + " "*11 + "|")
     sleep(0.3)
     print("|" + " "*18 + "JOGO INICIADO" + " "*18 + "|")
     sleep(0.3)
@@ -108,7 +126,7 @@ def print_tabuleiro(tabuleiro, tabuleiroBool):
 
         for j in range(9):
             if tabuleiro[i][j] != 0:
-                # Jogadas fornecidas pelo arquivo (dicas) em vermelho com fundo branco
+                # Jogadas fornecidas pelo arquivo (pistas) em vermelho com fundo branco
                 if not tabuleiroBool[i][j]:
                     print(f"{vermelho}{tabuleiro[i][j]}{normal}", end=" ")
                 # Jogadas do jogador (futuras) sem formatação
@@ -159,7 +177,7 @@ def check(tabuleiro, coluna, linha, numero):
         return False
     return True
 
-# Função básica pra limpar o terminal, funciona pra windows e pra linux
+# Função básica pra limpar o terminal, funciona pra windows e pra linux:
 def limpar_terminal():
     if platform.system() == "Windows":
         os.system('cls')

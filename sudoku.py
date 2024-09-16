@@ -1,200 +1,7 @@
 import sys
 import fun
 
-# Função para ler o arquivo de jogadas do modo batch e armazenar as jogadas(já padronizadas) em uma lista
-def ler_jogadas(arquivo, lista_jogadas):
-
-    with open(arquivo, "r") as file:
-        for line in file:
-            entrada = line
-            # Padronizando entrada:
-            entrada = entrada.replace(":", "")
-            entrada = entrada.replace(";", "")
-            entrada = entrada.replace(".", "")
-            entrada = entrada.replace(",", "")
-            entrada = entrada.replace(" ", "")
-            entrada = entrada.strip()
-
-            lista_jogadas.append(entrada)
-
-        return lista_jogadas
-    
-           
-# Função para ler o arquivo de pistas no formato "<coluna>,<linha>: <numero>":
-def ler_pistas(arquivo, tabuleiro):
-    contador = 0
-    flag3 = False
-    try:
-        with open(arquivo, "r") as file:
-            for linha in file:
-                
-                # Vamos remover as quebras de linhas e espaços inúteis:
-                linha = linha.strip()
-
-                # Vamos verificar se a linha está vazia e se contém ":":
-                if ':' in linha:
-
-                    # Vamos separar a jogada em coluna + linha e número:
-                    celula, numero = linha.split(':')
-
-                    # Vamos remover os espaços inúteis:
-                    celula = celula.strip()
-                    numero = numero.strip()
-
-                    # Separando as colunas e linhas (Ex: "F,1"):
-                    try:
-                        coluna, linha_tabuleiro = celula.split(',')
-                        coluna = coluna.strip()
-                        linha_tabuleiro = linha_tabuleiro.strip()
-
-                        # Convertendo as letras das colunas para números:
-                        coluna = ord(coluna.lower()) - ord('a')
-
-                        # Convertendo as linhas para índices do tabuleiro:
-                        linha_tabuleiro = int(linha_tabuleiro) - 1
-
-                        # Verificando se os índices estão nos limites:
-                        if 0 <= linha_tabuleiro < 9 and 0 <= coluna < 9 and check(tabuleiro, coluna, linha_tabuleiro, int(numero)):
-                            contador += 1
-
-                            # Atribuindo o número ao tabuleiro:
-                            tabuleiro[linha_tabuleiro][coluna] = int(numero)
-                        else:
-                            flag3 = True
-                    except ValueError:
-                        flag3 = True
-            if contador > 80:
-                flag3 = True
-            return flag3
-    except FileNotFoundError:
-        print(f"Arquivo {arquivo} não encontrado.")
-    except Exception as erro:
-        print(f"Erro ao ler o arquivo: {erro}")
-
-
-# Função referente a mensagem:
-def mensagem_inicial():
-    print("\n")
-    fun.sleep(0.3)
-    print("+" + "-="*24 + "-+")
-    fun.sleep(0.3)
-    print("|" + " "*49 + "|")
-    fun.sleep(0.3)
-    print("|" + " "*12 + "ARQUIVO DE PISTAS INSERIDO" + " "*11 + "|")
-    fun.sleep(0.3)
-    print("|" + " "*18 + "JOGO INICIADO" + " "*18 + "|")
-    fun.sleep(0.3)
-    print("|" + " "*19 + "BOM JOGO!!!" + " "*19 + "|")
-    fun.sleep(0.3)
-    print("|" + " "*49 + "|")
-    fun.sleep(0.3)
-    print("+" + "-="*24 + "-+")
-    print("\n")
-    fun.sleep(1)
-
-
-# Função referente a mensagem final:
-def mensagem_final():
-    print("\n")
-    fun.sleep(0.2)
-    print("+" + "-="*24 + "-+")
-    fun.sleep(0.2)
-    print("|" + " "*49 + "|")
-    fun.sleep(0.2)
-    print("|" + " "*49 + "|")
-    fun.sleep(0.2)
-    print("|" + " "*6 + "A GRADE FOI PREENCHIDA COM SUCESSO!!!" + " "*6 + "|")
-    fun.sleep(0.2)
-    print("|" + " "*49 + "|")
-    fun.sleep(0.2)
-    print("|" + " "*49 + "|")
-    fun.sleep(0.2)
-    print("+" + "-="*24 + "-+")
-    print("\n")
-
-
-# Códigos ANSI de cores:
-vermelho = "\033[31m"
-normal = "\033[0m"
-
-
-# Função para gerar e imprimir o tabuleiro (onde tem 0, fica vazio):
-def print_tabuleiro(tabuleiro, tabuleiroBool):
-    print("     A   B   C    D   E   F    G   H   I")
-    for i in range(9):
-        if i == 3 or i == 6:
-            print("  ++===+===+===++===+===+===++===+===+===++")
-        else:
-            print("  ++---+---+---++---+---+---++---+---+---++")
-        print(i + 1, "||", end=" ")
-
-        for j in range(9):
-            if tabuleiro[i][j] != 0:
-                # Jogadas fornecidas pelo arquivo (pistas) em vermelho com fundo branco
-                if not tabuleiroBool[i][j]:
-                    print(f"{vermelho}{tabuleiro[i][j]}{normal}", end=" ")
-                # Jogadas do jogador (futuras) sem formatação
-                else:
-                    print(str(tabuleiro[i][j]), end=" ")
-            else:
-                print(" ", end=" ")
-
-            if j < 8:
-                if j == 2 or j == 5:
-                    print("||", end=" ")
-                else:
-                    print("|", end=" ")
-        print("||", end=" ")
-        print(end="\n")
-    print("  ++---+---+---++---+---+---++---+---+---++")
-
-
-# Função que será usada como validação extra para o usuário:
-def certeza(pergunta):
-    while True:
-        simNao = input(pergunta)
-        simNao = str.lower(simNao).strip()
-        if simNao[0] == "s":
-            return "s"
-        elif simNao[0] == "n":
-            return "n"
-        else:
-            print("Resposta inválida, a célula não foi alterada...")
-
-
-# Função que verifica se um número pode ser colocado em um determinado quadrante:
-def check_quadrante(tabuleiro, j_inicial, i_inicial, numero):
-    for i in range(3):
-        for j in range(3):
-            if tabuleiro[i_inicial + i][j_inicial + j] == numero:
-                return True
-    return False
-
-
-# Função que verifica se um número pode ser colocado em uma célula[linha][coluna]:
-def check(tabuleiro, coluna, linha, numero):
-    i_inicial = linha // 3 * 3
-    j_inicial = coluna // 3 * 3
-
-    for i in range(9):
-        if tabuleiro[i][coluna] == numero or tabuleiro[linha][i] == numero:
-            return False
-    if check_quadrante(tabuleiro, j_inicial, i_inicial, numero):
-        return False
-    return True
-
-
-# Função básica pra limpar o terminal, funciona pra windows e pra linux
-def limpar_terminal():
-    if fun.platform.system() == "Windows":
-        fun.os.system('cls')
-    else:
-        fun.os.system('clear')
-
-
-   
 #### INICIO DO CODIGO ####
-
 
 # Condição que verifica a quantidade de argumentos fornecidos no comando inicial: 
 if not 2 <= len(sys.argv) <= 3:
@@ -221,13 +28,13 @@ else:
     flag2 = True
 
     # Ler o arquivo de pistas e preencher o tabuleiro:
-    flag3 = ler_pistas(arquivo, tabuleiro)
+    flag3 = fun.ler_pistas(arquivo, tabuleiro)
     if flag3:
         flag2 = False
         print("Arquivo de pistas inválido!")
     # Exibe a mensagem:
     else:
-        mensagem_inicial() 
+        fun.mensagem_inicial() 
     # Atualizando o tabuleiroBool para marcar as pistas como imutáveis:
     for i in range(9):
         for j in range(9):
@@ -247,7 +54,7 @@ if len(sys.argv) == 2:
 
         if contador == 0:
             # Exibir o tabuleiro inicial:
-            print_tabuleiro(tabuleiro, tabuleiroBool)
+            fun.print_tabuleiro(tabuleiro, tabuleiroBool)
             entrada = input("Entre com uma jogada: ")
         elif flag4:
             entrada = input("Tente novamente. ")
@@ -277,11 +84,11 @@ if len(sys.argv) == 2:
                     print("Jogada no formato inválido!")
 
                 elif tabuleiroBool[linha][colunaNum] and tabuleiro[linha][colunaNum] != 0:
-                    simNao = certeza("\nVocê tem certeza que deseja apagar essa célula? ")
+                    simNao = fun.certeza("\nVocê tem certeza que deseja apagar essa célula? ")
                     if simNao == "s":
                         print("\nApagando linha", linha, "coluna", coluna + ".")
                         tabuleiro[linha][colunaNum] = 0
-                        print_tabuleiro(tabuleiro, tabuleiroBool)
+                        fun.print_tabuleiro(tabuleiro, tabuleiroBool)
                     else:
                         print("A célula não foi alterada.")
                 elif not tabuleiroBool[linha][colunaNum]:
@@ -304,7 +111,7 @@ if len(sys.argv) == 2:
                     print("Essa célula é uma dica\n")
                 else:
                     for i in range(9):
-                        if check(tabuleiro, colunaNum, linha, numeros[i]):
+                        if fun.check(tabuleiro, colunaNum, linha, numeros[i]):
                             resposta.append(numeros[i])
 
                     print("\nOs números possíveis para esta célula são:\n")
@@ -330,25 +137,25 @@ if len(sys.argv) == 2:
                 elif tabuleiro[linha][coluna] == numero:
                     print("\nA jogada não mudará o tabuleiro...\n")
                 
-                elif not check(tabuleiro, coluna, linha, numero):
+                elif not fun.check(tabuleiro, coluna, linha, numero):
                     print("\nA jogada é inválida!\nA jogada fere as regras do jogo.")
                 
-                elif check(tabuleiro, coluna, linha, numero) and tabuleiroBool[linha][coluna] and tabuleiro[linha][coluna] == 0:
+                elif fun.check(tabuleiro, coluna, linha, numero) and tabuleiroBool[linha][coluna] and tabuleiro[linha][coluna] == 0:
                     print("\nJogada válida!\n")
                     tabuleiro[linha][coluna] = numero
                     fun.sleep(1)
-                    limpar_terminal()
-                    print_tabuleiro(tabuleiro, tabuleiroBool)
+                    fun.limpar_terminal()
+                    fun.print_tabuleiro(tabuleiro, tabuleiroBool)
                 
-                elif check(tabuleiro, coluna, linha, numero) and tabuleiroBool[linha][coluna] and tabuleiro[linha][coluna] != 0:
-                    simNao = certeza("\nA jogada é válida, mas a célula escolhida já está preenchida, "
+                elif fun.check(tabuleiro, coluna, linha, numero) and tabuleiroBool[linha][coluna] and tabuleiro[linha][coluna] != 0:
+                    simNao = fun.certeza("\nA jogada é válida, mas a célula escolhida já está preenchida, "
                                 "deseja substituí-la? (s/n)\n")
                     if simNao == "s":
                         tabuleiro[linha][coluna] = numero
                         print("\nSubstituindo...\n")
                         fun.sleep(1)
-                        limpar_terminal()
-                        print_tabuleiro(tabuleiro, tabuleiroBool)
+                        fun.limpar_terminal()
+                        fun.print_tabuleiro(tabuleiro, tabuleiroBool)
                     else:
                         print("A célula foi mantida!\n")
             
@@ -385,7 +192,7 @@ elif len(sys.argv) == 3:
     # Ler o arquivo de jogadas e armazenar as jogadas em uma lista:
     arquivo2 = sys.argv[2]
     lista_de_jogadas = []
-    lista_de_jogadas = ler_jogadas(arquivo2, lista_de_jogadas)
+    lista_de_jogadas = fun.ler_jogadas(arquivo2, lista_de_jogadas)
 
 
     # Percorrer a lista de jogadas validando cada jogada uma a uma, e salvando as inválidas em uma lista separada:
@@ -394,34 +201,34 @@ elif len(sys.argv) == 3:
     for jogada in lista_de_jogadas:
 
         entrada = jogada
+        if entrada:
+            if entrada[0].isalpha() and entrada[1].isnumeric() and entrada[2].isnumeric():
+                coluna, linha, numero = entrada[0], entrada[1], entrada[2]
+                linha = int(linha) - 1
+                numero = int(numero)
 
-        if entrada[0].isalpha() and entrada[1].isnumeric() and entrada[2].isnumeric():
-            coluna, linha, numero = entrada[0], entrada[1], entrada[2]
-            linha = int(linha) - 1
-            numero = int(numero)
+                coluna = str.lower(coluna)
+                coluna = ord(coluna) - ord("a")
 
-            coluna = str.lower(coluna)
-            coluna = ord(coluna) - ord("a")
-
-            if numero > 9 or numero < 1 or linha > 8 or \
-            linha < 0 or coluna > 8 or coluna < 0 or entrada == " ":
-                lista_de_jogadas_erradas.append(entrada)
-            
-            elif not tabuleiroBool[linha][coluna]:
-                lista_de_jogadas_erradas.append(entrada)
-            
-            elif not check(tabuleiro, coluna, linha, numero):
-                lista_de_jogadas_erradas.append(entrada)
-            
-            elif check(tabuleiro, coluna, linha, numero) and tabuleiroBool[linha][coluna] and tabuleiro[linha][coluna] == 0:
-                tabuleiro[linha][coluna] = numero
+                if numero > 9 or numero < 1 or linha > 8 or \
+                linha < 0 or coluna > 8 or coluna < 0 or entrada == " ":
+                    lista_de_jogadas_erradas.append(entrada)
                 
-            
-            elif check(tabuleiro, coluna, linha, numero) and tabuleiroBool[linha][coluna] and tabuleiro[linha][coluna] != 0:
-                tabuleiro[linha][coluna] = numero
-            
-            else:
-                lista_de_jogadas_erradas.append(entrada)
+                elif not tabuleiroBool[linha][coluna]:
+                    lista_de_jogadas_erradas.append(entrada)
+                
+                elif not fun.check(tabuleiro, coluna, linha, numero):
+                    lista_de_jogadas_erradas.append(entrada)
+                
+                elif fun.check(tabuleiro, coluna, linha, numero) and tabuleiroBool[linha][coluna] and tabuleiro[linha][coluna] == 0:
+                    tabuleiro[linha][coluna] = numero
+                    
+                
+                elif fun.check(tabuleiro, coluna, linha, numero) and tabuleiroBool[linha][coluna] and tabuleiro[linha][coluna] != 0:
+                    tabuleiro[linha][coluna] = numero
+                
+                else:
+                    lista_de_jogadas_erradas.append(entrada)
 
 
     # Checando se a grade foi preenchida ou não:
@@ -436,6 +243,9 @@ elif len(sys.argv) == 3:
         i += 1
 
 
+    fun.print_tabuleiro(tabuleiro, tabuleiroBool)
+    print(" ")
+
     # Printando as jogadas erradas:
     for jogada in lista_de_jogadas_erradas:
 
@@ -448,14 +258,10 @@ elif len(sys.argv) == 3:
 
     # Printando se a grade foi preenchida ou não:
     if nao_terminou:
-        print_tabuleiro(tabuleiro, tabuleiroBool)
-
-        mensagem_final()
-    else:
-        print_tabuleiro(tabuleiro, tabuleiroBool)
         print("")
         print("A grade nao foi preenchida!")
+    else:
+        fun.mensagem_final()
 
     # Modo Batch (FIM)
-
 #### FIM DO CODIGO ####
