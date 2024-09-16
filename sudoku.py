@@ -1,3 +1,8 @@
+# Edileudo Maciel Moreira Filho | Matrícula: 567234
+# Juliano Melo Rodrigues Alencar | Matrícula: 565760
+# Gabriel Matias ... | Matrícula:
+
+### ESTE ARQUIVO CONTÉM O PROGRAMA NO MODO INTERATIVO E MODO BATCH ###
 import sys
 import fun
 

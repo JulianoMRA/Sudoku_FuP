@@ -1,3 +1,5 @@
+### ESTE ARQUIVO CONTÉM TODAS AS FUNÇÕES UTILIZADAS NO ARQUIVO sudoku.py ###
+
 from time import sleep
 import os
 import platform
