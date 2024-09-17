@@ -1,8 +1,10 @@
+# Membros do grupo:
 # Edileudo Maciel Moreira Filho | Matrícula: 567234
-# Juliano Melo Rodrigues Alencar | Matrícula: 565760
 # Gabriel Matias De Almeida | Matrícula: 568449
+# Juliano Melo Rodrigues Alencar | Matrícula: 565760
 
-### ESTE ARQUIVO CONTÉM O PROGRAMA NO MODO INTERATIVO E MODO BATCH ###
+### ESTE É O ARQUIVO PRINCIPAL DO PROGRAMA, NELE ESTÁ CONTIDO O MODO INTERATIVO E O MODO BATCH###
+
 import sys
 import fun
 
@@ -18,7 +20,6 @@ Para acessar o Modo Batch insira:
           
     python sudoku.py <arquivo_de_pistas.txt> <arquivo_de_jogadas.txt>
           """)
-
 
 # Inicializando o tabuleiro e tabuleiroBool:
 else:
@@ -44,10 +45,8 @@ else:
             if tabuleiro[i][j] != 0:
                 tabuleiroBool[i][j] = False
 
-
 # Verifica se é o modo interativo:
 if len(sys.argv) == 2:
-
 
     # Modo Interativo (INÍCIO):
     contador = 0
@@ -181,22 +180,18 @@ if len(sys.argv) == 2:
             i += 1
         contador += 1
 
-    print("JOGO CONCLUIDO")
-    print("PARABENS!!")
+    fun.mensagem_final()
     
     # Modo Interativo (FIM).
-
 
     # Modo Batch (INÍCIO):
 elif len(sys.argv) == 3:
     
-
     # Ler o arquivo de pistas e validá-lo e montar o tabuleiro com as pistas lidas (Já foi feito anteriormente)
     # Ler o arquivo de jogadas e armazenar as jogadas em uma lista:
     arquivo2 = sys.argv[2]
     lista_de_jogadas = []
     lista_de_jogadas = fun.ler_jogadas(arquivo2, lista_de_jogadas)
-
 
     # Percorrer a lista de jogadas validando cada jogada uma a uma, e salvando as inválidas em uma lista separada:
     lista_de_jogadas_erradas = []
@@ -233,7 +228,6 @@ elif len(sys.argv) == 3:
                 else:
                     lista_de_jogadas_erradas.append(entrada)
 
-
     # Checando se a grade foi preenchida ou não:
     nao_terminou = False
     i = 0
@@ -244,7 +238,6 @@ elif len(sys.argv) == 3:
                 nao_terminou = True
             j += 1
         i += 1
-
 
     fun.print_tabuleiro(tabuleiro, tabuleiroBool)
     print(" ")
@@ -257,7 +250,6 @@ elif len(sys.argv) == 3:
         coluna, linha, numero = entrada[0], entrada[1], entrada[2]
 
         print(f"A jogada ({coluna}, {linha}) = {numero} eh invalida!")
-
 
     # Printando se a grade foi preenchida ou não:
     if nao_terminou:

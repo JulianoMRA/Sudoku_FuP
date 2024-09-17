@@ -1,4 +1,4 @@
-### ESTE ARQUIVO CONTÉM TODAS AS FUNÇÕES UTILIZADAS NO ARQUIVO sudoku.py ###
+### ESTE É O ARQUIVO QUE CONTÉM TODAS AS FUNÇÕES UTILIZADAS NO ARQUIVO sudoku.py ###
 
 from time import sleep
 import os
@@ -101,11 +101,11 @@ def mensagem_final():
     sleep(0.2)
     print("|" + " "*49 + "|")
     sleep(0.2)
-    print("|" + " "*49 + "|")
-    sleep(0.2)
     print("|" + " "*6 + "A GRADE FOI PREENCHIDA COM SUCESSO!!!" + " "*6 + "|")
     sleep(0.2)
-    print("|" + " "*49 + "|")
+    print("|" + " "*16 + "JOGO CONCLUÍDO!!!" + " "*16 + "|")
+    sleep(0.2)
+    print("|" + " "*19 + "PARABÉNS!!!" + " "*19 + "|")
     sleep(0.2)
     print("|" + " "*49 + "|")
     sleep(0.2)
