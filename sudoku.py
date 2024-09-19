@@ -189,9 +189,9 @@ elif len(sys.argv) == 3:
     
     # Ler o arquivo de pistas e validá-lo e montar o tabuleiro com as pistas lidas (Já foi feito anteriormente)
     # Ler o arquivo de jogadas e armazenar as jogadas em uma lista:
-    arquivo2 = sys.argv[2]
+    arquivo_jogadas = sys.argv[2]
     lista_de_jogadas = []
-    lista_de_jogadas = fun.ler_jogadas(arquivo2, lista_de_jogadas)
+    lista_de_jogadas = fun.ler_jogadas(arquivo_jogadas, lista_de_jogadas)
 
     # Percorrer a lista de jogadas validando cada jogada uma a uma, e salvando as inválidas em uma lista separada:
     lista_de_jogadas_erradas = []
