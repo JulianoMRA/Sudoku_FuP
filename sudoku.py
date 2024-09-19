@@ -3,7 +3,7 @@
 # Gabriel Matias De Almeida | Matrícula: 568449
 # Juliano Melo Rodrigues Alencar | Matrícula: 565760
 
-### ESTE É O ARQUIVO PRINCIPAL DO PROGRAMA, NELE ESTÁ CONTIDO O MODO INTERATIVO E O MODO BATCH###
+### ESTE É O ARQUIVO PRINCIPAL DO PROGRAMA, NELE ESTÁ CONTIDO O MODO INTERATIVO E O MODO BATCH ###
 
 import sys
 import fun
