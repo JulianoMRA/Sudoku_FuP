@@ -158,7 +158,6 @@ def certeza(pergunta):
         else:
             print("Resposta inválida, a célula não foi alterada...")
 
-
 # Função que verifica se um número pode ser colocado em um determinado quadrante:
 def check_quadrante(tabuleiro, j_inicial, i_inicial, numero):
     for i in range(3):
