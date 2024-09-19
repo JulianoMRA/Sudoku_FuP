@@ -32,8 +32,8 @@ else:
     tabuleiro_incompleto = True
 
     # Ler o arquivo de pistas e preencher o tabuleiro:
-    pistas_validas = fun.ler_pistas(arquivo, tabuleiro)
-    if pistas_validas:
+    pistas_invalidas = fun.ler_pistas(arquivo, tabuleiro)
+    if pistas_invalidas:
         print("Arquivo de pistas inválido!")
     # Exibe a mensagem:
     else:
@@ -51,7 +51,7 @@ if len(sys.argv) == 2:
     contador = 0
     jogada_invalida = False
 
-    while tabuleiro_incompleto and pistas_validas:
+    while tabuleiro_incompleto and not pistas_invalidas:
 
         if contador == 0:
             # Exibir o tabuleiro inicial:
@@ -179,7 +179,8 @@ if len(sys.argv) == 2:
             i += 1
         contador += 1
 
-    fun.mensagem_final()
+    if not pistas_invalidas:
+        fun.mensagem_final()
     
     # Modo Interativo (FIM).
 
