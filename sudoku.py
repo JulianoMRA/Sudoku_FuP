@@ -94,7 +94,7 @@ if len(sys.argv) == 2:
                     else:
                         print("A célula não foi alterada.")
                 elif not tabuleiroBool[linha][colunaNum]:
-                    print("Não é possível apagar uma célula-dica!")
+                    print("Não é possível apagar uma célula-pista!")
                     
                 else:
                     print("A célula escolhida já é vazia...")
@@ -110,7 +110,7 @@ if len(sys.argv) == 2:
                 numeros = [1, 2, 3, 4, 5, 6, 7, 8, 9]
 
                 if not tabuleiroBool[linha][colunaNum]:
-                    print("Essa célula é uma dica\n")
+                    print("Essa célula é uma pista\n")
                 else:
                     for i in range(9):
                         if fun.check(tabuleiro, colunaNum, linha, numeros[i]):
@@ -134,7 +134,7 @@ if len(sys.argv) == 2:
                     print("\nJogada no formato inválido!")
                 
                 elif not tabuleiroBool[linha][coluna]:
-                    print("\nA jogada é inválida!\nNão se pode substituir um número-dica.")
+                    print("\nA jogada é inválida!\nNão se pode substituir um número-pista.")
 
                 elif tabuleiro[linha][coluna] == numero:
                     print("\nA jogada não mudará o tabuleiro...\n")
