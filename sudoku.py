@@ -221,7 +221,6 @@ elif len(sys.argv) == 3:
                 elif fun.check(tabuleiro, coluna, linha, numero) and tabuleiroBool[linha][coluna] and tabuleiro[linha][coluna] == 0:
                     tabuleiro[linha][coluna] = numero
                     
-                
                 elif fun.check(tabuleiro, coluna, linha, numero) and tabuleiroBool[linha][coluna] and tabuleiro[linha][coluna] != 0:
                     tabuleiro[linha][coluna] = numero
                 
