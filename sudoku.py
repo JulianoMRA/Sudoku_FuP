@@ -29,12 +29,11 @@ else:
     # Capturando o nome do arquivo da linha de comando:
     arquivo = sys.argv[1]
 
-    flag2 = True
+    tabuleiro_incompleto = True
 
     # Ler o arquivo de pistas e preencher o tabuleiro:
-    flag3 = fun.ler_pistas(arquivo, tabuleiro)
-    if flag3:
-        flag2 = False
+    pistas_validas = fun.ler_pistas(arquivo, tabuleiro)
+    if pistas_validas:
         print("Arquivo de pistas inválido!")
     # Exibe a mensagem:
     else:
@@ -50,17 +49,17 @@ if len(sys.argv) == 2:
 
     # Modo Interativo (INÍCIO):
     contador = 0
-    flag4 = False
+    jogada_invalida = False
 
-    while flag2:
+    while tabuleiro_incompleto and pistas_validas:
 
         if contador == 0:
             # Exibir o tabuleiro inicial:
             fun.print_tabuleiro(tabuleiro, tabuleiroBool)
             entrada = input("Entre com uma jogada: ")
-        elif flag4:
+        elif jogada_invalida:
             entrada = input("Tente novamente. ")
-            flag4 = False
+            jogada_invalida = False
         else:
             entrada = input("Próxima jogada! ")
 
@@ -163,19 +162,19 @@ if len(sys.argv) == 2:
             
             else:
                 print("\nJogada no formato inválido!")
-                flag4 = True
+                jogada_invalida = True
                 
         else:
             print("\nJogada no formato inválido!")
-            flag4 = True
+            jogada_invalida = True
 
         i = 0
-        flag2 = False
-        while i < 9 and not flag2:
+        tabuleiro_incompleto = False
+        while i < 9 and not tabuleiro_incompleto:
             j = 0
-            while j < 9 and not flag2:
+            while j < 9 and not tabuleiro_incompleto:
                 if tabuleiro[i][j] == 0:    
-                    flag2 = True
+                    tabuleiro_incompleto = True
                 j += 1
             i += 1
         contador += 1

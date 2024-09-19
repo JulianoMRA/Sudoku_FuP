@@ -25,7 +25,7 @@ def ler_jogadas(arquivo, lista_jogadas):
 # Função para ler o arquivo de pistas:
 def ler_pistas(arquivo, tabuleiro):
     contador = 0
-    flag3 = False
+    pistas_validas = False
     try:
         with open(arquivo, "r") as file:
             for linha in file:
@@ -62,12 +62,12 @@ def ler_pistas(arquivo, tabuleiro):
                             # Atribuindo o número ao tabuleiro:
                             tabuleiro[linha_tabuleiro][coluna] = int(numero)
                         else:
-                            flag3 = True
+                            pistas_validas = True
                     except ValueError:
-                        flag3 = True
+                        pistas_validas = True
             if contador > 80:
-                flag3 = True
-            return flag3
+                pistas_validas = True
+            return pistas_validas
     except FileNotFoundError:
         print(f"Arquivo {arquivo} não encontrado.")
     except Exception as erro:
